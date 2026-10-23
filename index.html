@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منتدى السلام والسلم الدولي - البوابة الرسمية</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Tajawal -->
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <!-- Supabase JS CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            dark: '#0A3225',
+                            primary: '#12523D',
+                            light: '#1B7356',
+                            gold: '#D4AF37',
+                            sand: '#F4F1EA'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Tajawal', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans min-h-screen flex flex-col">
+
+    <!-- Header & Navigation Bar -->
+    <header class="bg-brand-dark text-white sticky top-0 z-50 shadow-xl border-b border-brand-gold/30">
+        <div class="container mx-auto px-4 py-3 flex flex-wrap justify-between items-center gap-4">
+            <!-- Brand Logo & Title -->
+            <div class="flex items-center gap-3">
+                <img src="https://gplpgtujmzfssjawmrdr.supabase.co/storage/v1/object/public/templates/logo.jpg" alt="IPSF Logo" class="w-12 h-12 rounded-full border-2 border-brand-gold shadow" onerror="this.src='https://via.placeholder.com/50?text=IPSF'">
+                <div>
+                    <h1 class="font-bold text-lg leading-tight text-brand-gold">منتدى السلام والسلم الدولي</h1>
+                    <p class="text-xs text-gray-300">International Peace and Security Forum (IPSF)</p>
+                </div>
+            </div>
+
+            <!-- Main Navigation Tabs -->
+            <nav class="hidden md:flex items-center gap-1 bg-brand-primary/50 p-1.5 rounded-2xl border border-white/10">
+                <button onclick="switchTab('cga')" id="tab-cga" class="tab-btn active-tab px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2 transition hover:bg-brand-gold hover:text-brand-dark">
+                    <i class="fa-solid fa-landmark"></i> الإدارة العامة
+                </button>
+                <button onclick="switchTab('branches')" id="tab-branches" class="tab-btn px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2 transition hover:bg-brand-gold hover:text-brand-dark">
+                    <i class="fa-solid fa-earth-americas"></i> الفروع
+                </button>
+                <button onclick="switchTab('bodies')" id="tab-bodies" class="tab-btn px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2 transition hover:bg-brand-gold hover:text-brand-dark">
+                    <i class="fa-solid fa-shield-halved"></i> الهيئات
+                </button>
+                <button onclick="switchTab('newspaper')" id="tab-newspaper" class="tab-btn px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2 transition hover:bg-brand-gold hover:text-brand-dark">
+                    <i class="fa-solid fa-newspaper"></i> الجريدة الرسمية
+                </button>
+                <button onclick="switchTab('library')" id="tab-library" class="tab-btn px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2 transition hover:bg-brand-gold hover:text-brand-dark">
+                    <i class="fa-solid fa-photo-film"></i> المكتبة المرئية
+                </button>
+            </nav>
+
+            <!-- Verification System Shortcut & Admin Control -->
+            <div class="flex items-center gap-2">
+                <a href="https://sabatico2027-png.github.io/Verification-system/" target="_blank" class="bg-brand-gold hover:bg-yellow-500 text-brand-dark px-3 py-2 rounded-xl font-bold text-xs flex items-center gap-1 shadow transition">
+                    <i class="fa-solid fa-award"></i> منصة الشهادات
+                </a>
+                <button onclick="toggleModal('loginModal')" class="bg-white/10 hover:bg-white/20 text-white p-2.5 rounded-xl text-sm shadow transition" title="لوحة التحكم">
+                    <i class="fa-solid fa-user-gear"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Nav Menu Buttons -->
+        <div class="md:hidden flex overflow-x-auto gap-2 px-4 py-2 bg-brand-primary/80 border-t border-white/10 text-xs">
+            <button onclick="switchTab('cga')" class="px-3 py-1.5 rounded-lg font-bold bg-brand-gold text-brand-dark whitespace-nowrap">الإدارة العامة</button>
+            <button onclick="switchTab('branches')" class="px-3 py-1.5 rounded-lg font-bold bg-brand-dark text-white whitespace-nowrap">الفروع</button>
+            <button onclick="switchTab('bodies')" class="px-3 py-1.5 rounded-lg font-bold bg-brand-dark text-white whitespace-nowrap">الهيئات</button>
+            <button onclick="switchTab('newspaper')" class="px-3 py-1.5 rounded-lg font-bold bg-brand-dark text-white whitespace-nowrap">الجريدة</button>
+            <button onclick="switchTab('library')" class="px-3 py-1.5 rounded-lg font-bold bg-brand-dark text-white whitespace-nowrap">المكتبة</button>
+        </div>
+    </header>
+
+    <!-- Main Dynamic Content Container -->
+    <main class="container mx-auto px-4 py-8 flex-1">
+        
+        <!-- Tab 1: الإدارة العامة المركزية (CGA) -->
+        <section id="section-cga" class="tab-content space-y-8">
+            <div class="bg-gradient-to-r from-brand-dark to-brand-primary text-white rounded-3xl p-8 shadow-xl relative overflow-hidden">
+                <div class="max-w-2xl space-y-4">
+                    <span class="bg-brand-gold/20 text-brand-gold text-xs font-bold px-3 py-1 rounded-full border border-brand-gold/30">الإدارة العامة المركزية (IPSF-CGA)</span>
+                    <h2 class="text-3xl md:text-4xl font-extrabold">منظومة القيادة والتطوير الدولي</h2>
+                    <p class="text-gray-200 text-sm md:text-base leading-relaxed">
+                        تشرف الإدارة العامة المركزية على توجيه كافة استراتيجيات المنتدى، متابعة أداء الفروع والهيئات، وإصدار المبادرات والقرارات الرسمية الداعمة للسلام والمعرفة.
+                    </p>
+                </div>
+            </div>
+
+            <!-- الهيكل الإداري -->
+            <div>
+                <h3 class="text-2xl font-bold text-brand-dark mb-6 flex items-center gap-2">
+                    <i class="fa-solid fa-sitemap text-brand-gold"></i> الهيكل الإداري للقيادة
+                </h3>
+                <div id="adminStructureGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                    <!-- سيتم تحميل الهيكل ديناميكياً من قاعدة البيانات -->
+                    <div class="p-6 text-center text-gray-500 bg-white rounded-2xl shadow">جاري تحميل الهيكل الإداري...</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tab 2: الفروع (Branches) -->
+        <section id="section-branches" class="tab-content hidden space-y-8">
+            <h2 class="text-3xl font-bold text-brand-dark flex items-center gap-2">
+                <i class="fa-solid fa-earth-americas text-brand-gold"></i> شبكة فروع المنتدى حول العالم
+            </h2>
+            <div id="branchesGrid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- سيتم تحميل الفروع ديناميكياً -->
+            </div>
+        </section>
+
+        <!-- Tab 3: الهيئات (Bodies) -->
+        <section id="section-bodies" class="tab-content hidden space-y-8">
+            <h2 class="text-3xl font-bold text-brand-dark flex items-center gap-2">
+                <i class="fa-solid fa-shield-halved text-brand-gold"></i> الهيئات واللجان المعتمدة
+            </h2>
+            <div id="bodiesGrid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- سيتم تحميل الهيئات ديناميكياً -->
+            </div>
+        </section>
+
+        <!-- Tab 4: الجريدة الرسمية (Newspaper) -->
+        <section id="section-newspaper" class="tab-content hidden space-y-8">
+            <h2 class="text-3xl font-bold text-brand-dark flex items-center gap-2">
+                <i class="fa-solid fa-newspaper text-brand-gold"></i> الجريدة الرسمية والقرارات
+            </h2>
+            <div id="newsFeed" class="space-y-6">
+                <!-- سيتم تحميل الأخبار والتقارير ديناميكياً -->
+            </div>
+        </section>
+
+        <!-- Tab 5: المكتبة المرئية (Media Library) -->
+        <section id="section-library" class="tab-content hidden space-y-8">
+            <h2 class="text-3xl font-bold text-brand-dark flex items-center gap-2">
+                <i class="fa-solid fa-photo-film text-brand-gold"></i> المكتبة المرئية (صور وفيديوهات)
+            </h2>
+            <div id="mediaGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                <!-- سيتم تحميل وسائط المكتبة ديناميكياً -->
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-brand-dark text-white text-center py-6 border-t border-brand-gold/30 mt-auto">
+        <p class="text-sm">جميع الحقوق محفوظة © 2026 — منتدى السلام والسلم الدولي</p>
+    </footer>
+
+    <!-- Script Links -->
+    <script src="config.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
