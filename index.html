@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منتدى السلام والسلم الدولي - البوابة الرسمية</title>
+    <title>منتدى السلام والسلم الدولي - البوابة الرسمية للأمانة العامة</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts: Tajawal -->
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
     <!-- Supabase JS CDN -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
@@ -21,8 +21,10 @@
                             dark: '#0A3225',
                             primary: '#12523D',
                             light: '#1B7356',
+                            accent: '#26A69A',
                             gold: '#D4AF37',
-                            sand: '#F4F1EA'
+                            goldHover: '#B59227',
+                            sand: '#F8F6F0'
                         }
                     },
                     fontFamily: {
@@ -32,136 +34,284 @@
             }
         }
     </script>
+    <style>
+        .active-tab {
+            background-color: #D4AF37 !important;
+            color: #0A3225 !important;
+        }
+    </style>
 </head>
-<body class="bg-gray-50 text-gray-800 font-sans min-h-screen flex flex-col">
+<body class="bg-gray-50 text-gray-800 font-sans min-h-screen flex flex-col selection:bg-brand-gold selection:text-brand-dark">
 
-    <!-- Header & Navigation Bar -->
-    <header class="bg-brand-dark text-white sticky top-0 z-50 shadow-xl border-b border-brand-gold/30">
+    <!-- Top Announcement Bar -->
+    <div class="bg-brand-dark border-b border-brand-gold/30 text-brand-gold py-1.5 px-4 text-xs">
+        <div class="container mx-auto flex justify-between items-center">
+            <span class="flex items-center gap-2"><i class="fa-solid fa-bullhorn text-brand-gold animate-pulse"></i> البوابة الرقمية الموحدة للإدارة العامة المركزية (IPSF-CGA)</span>
+            <span id="currentDateDisplay" class="hidden sm:inline-block text-gray-300">الجمعة، 2026</span>
+        </div>
+    </div>
+
+    <!-- Header & Main Navigation Bar -->
+    <header class="bg-brand-primary text-white sticky top-0 z-40 shadow-2xl border-b-2 border-brand-gold">
         <div class="container mx-auto px-4 py-3 flex flex-wrap justify-between items-center gap-4">
             <!-- Brand Logo & Title -->
             <div class="flex items-center gap-3">
-                <img src="https://gplpgtujmzfssjawmrdr.supabase.co/storage/v1/object/public/templates/logo.jpg" alt="IPSF Logo" class="w-12 h-12 rounded-full border-2 border-brand-gold shadow" onerror="this.src='https://via.placeholder.com/50?text=IPSF'">
+                <img src="https://gplpgtujmzfssjawmrdr.supabase.co/storage/v1/object/public/templates/logo.jpg" alt="IPSF Logo" class="w-12 h-12 rounded-full border-2 border-brand-gold shadow-lg object-cover" onerror="this.src='https://via.placeholder.com/60?text=IPSF'">
                 <div>
-                    <h1 class="font-bold text-lg leading-tight text-brand-gold">منتدى السلام والسلم الدولي</h1>
-                    <p class="text-xs text-gray-300">International Peace and Security Forum (IPSF)</p>
+                    <h1 class="font-extrabold text-base md:text-lg leading-tight text-brand-gold tracking-wide">منتدى السلام والسلم الدولي</h1>
+                    <p class="text-[10px] md:text-xs text-gray-200 font-medium">International Peace and Security Forum</p>
                 </div>
             </div>
 
-            <!-- Main Navigation Tabs -->
-            <nav class="hidden md:flex items-center gap-1 bg-brand-primary/50 p-1.5 rounded-2xl border border-white/10">
-                <button onclick="switchTab('cga')" id="tab-cga" class="tab-btn active-tab px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2 transition hover:bg-brand-gold hover:text-brand-dark">
+            <!-- Desktop Navigation Tabs -->
+            <nav class="hidden lg:flex items-center gap-1 bg-brand-dark/60 p-1.5 rounded-2xl border border-brand-gold/20 shadow-inner">
+                <button onclick="switchTab('cga')" id="tab-cga" class="tab-btn active-tab px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2 transition-all">
                     <i class="fa-solid fa-landmark"></i> الإدارة العامة
                 </button>
-                <button onclick="switchTab('branches')" id="tab-branches" class="tab-btn px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2 transition hover:bg-brand-gold hover:text-brand-dark">
+                <button onclick="switchTab('branches')" id="tab-branches" class="tab-btn text-white hover:text-brand-gold px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2 transition-all">
                     <i class="fa-solid fa-earth-americas"></i> الفروع
                 </button>
-                <button onclick="switchTab('bodies')" id="tab-bodies" class="tab-btn px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2 transition hover:bg-brand-gold hover:text-brand-dark">
+                <button onclick="switchTab('bodies')" id="tab-bodies" class="tab-btn text-white hover:text-brand-gold px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2 transition-all">
                     <i class="fa-solid fa-shield-halved"></i> الهيئات
                 </button>
-                <button onclick="switchTab('newspaper')" id="tab-newspaper" class="tab-btn px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2 transition hover:bg-brand-gold hover:text-brand-dark">
+                <button onclick="switchTab('newspaper')" id="tab-newspaper" class="tab-btn text-white hover:text-brand-gold px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2 transition-all">
                     <i class="fa-solid fa-newspaper"></i> الجريدة الرسمية
                 </button>
-                <button onclick="switchTab('library')" id="tab-library" class="tab-btn px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2 transition hover:bg-brand-gold hover:text-brand-dark">
+                <button onclick="switchTab('library')" id="tab-library" class="tab-btn text-white hover:text-brand-gold px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2 transition-all">
                     <i class="fa-solid fa-photo-film"></i> المكتبة المرئية
                 </button>
             </nav>
 
-            <!-- Verification System Shortcut & Admin Control -->
+            <!-- Quick Action Links & Admin Trigger -->
             <div class="flex items-center gap-2">
-                <a href="https://sabatico2027-png.github.io/Verification-system/" target="_blank" class="bg-brand-gold hover:bg-yellow-500 text-brand-dark px-3 py-2 rounded-xl font-bold text-xs flex items-center gap-1 shadow transition">
-                    <i class="fa-solid fa-award"></i> منصة الشهادات
+                <a href="https://sabatico2027-png.github.io/Verification-system/" target="_blank" class="bg-brand-gold hover:bg-brand-goldHover text-brand-dark px-3 py-2 rounded-xl font-extrabold text-xs flex items-center gap-1.5 shadow-md transition-all transform hover:scale-105">
+                    <i class="fa-solid fa-award text-sm"></i> منصة الشهادات
                 </a>
-                <button onclick="toggleModal('loginModal')" class="bg-white/10 hover:bg-white/20 text-white p-2.5 rounded-xl text-sm shadow transition" title="لوحة التحكم">
-                    <i class="fa-solid fa-user-gear"></i>
+                <button onclick="toggleModal('loginModal')" class="bg-brand-dark hover:bg-black/40 text-brand-gold border border-brand-gold/40 p-2.5 rounded-xl text-sm shadow transition-all" title="لوحة التحكم والإدارة">
+                    <i class="fa-solid fa-user-lock"></i>
                 </button>
             </div>
         </div>
 
-        <!-- Mobile Nav Menu Buttons -->
-        <div class="md:hidden flex overflow-x-auto gap-2 px-4 py-2 bg-brand-primary/80 border-t border-white/10 text-xs">
-            <button onclick="switchTab('cga')" class="px-3 py-1.5 rounded-lg font-bold bg-brand-gold text-brand-dark whitespace-nowrap">الإدارة العامة</button>
-            <button onclick="switchTab('branches')" class="px-3 py-1.5 rounded-lg font-bold bg-brand-dark text-white whitespace-nowrap">الفروع</button>
-            <button onclick="switchTab('bodies')" class="px-3 py-1.5 rounded-lg font-bold bg-brand-dark text-white whitespace-nowrap">الهيئات</button>
-            <button onclick="switchTab('newspaper')" class="px-3 py-1.5 rounded-lg font-bold bg-brand-dark text-white whitespace-nowrap">الجريدة</button>
-            <button onclick="switchTab('library')" class="px-3 py-1.5 rounded-lg font-bold bg-brand-dark text-white whitespace-nowrap">المكتبة</button>
+        <!-- Mobile Navigation Strip -->
+        <div class="lg:hidden flex overflow-x-auto gap-2 px-4 py-2 bg-brand-dark/90 border-t border-brand-gold/20 text-xs no-scrollbar">
+            <button onclick="switchTab('cga')" id="mob-tab-cga" class="px-3 py-1.5 rounded-lg font-bold bg-brand-gold text-brand-dark whitespace-nowrap">الإدارة العامة</button>
+            <button onclick="switchTab('branches')" id="mob-tab-branches" class="px-3 py-1.5 rounded-lg font-bold bg-brand-primary text-white whitespace-nowrap">الفروع</button>
+            <button onclick="switchTab('bodies')" id="mob-tab-bodies" class="px-3 py-1.5 rounded-lg font-bold bg-brand-primary text-white whitespace-nowrap">الهيئات</button>
+            <button onclick="switchTab('newspaper')" id="mob-tab-newspaper" class="px-3 py-1.5 rounded-lg font-bold bg-brand-primary text-white whitespace-nowrap">الجريدة</button>
+            <button onclick="switchTab('library')" id="mob-tab-library" class="px-3 py-1.5 rounded-lg font-bold bg-brand-primary text-white whitespace-nowrap">المكتبة</button>
         </div>
     </header>
 
-    <!-- Main Dynamic Content Container -->
+    <!-- Main Container -->
     <main class="container mx-auto px-4 py-8 flex-1">
         
-        <!-- Tab 1: الإدارة العامة المركزية (CGA) -->
-        <section id="section-cga" class="tab-content space-y-8">
-            <div class="bg-gradient-to-r from-brand-dark to-brand-primary text-white rounded-3xl p-8 shadow-xl relative overflow-hidden">
-                <div class="max-w-2xl space-y-4">
-                    <span class="bg-brand-gold/20 text-brand-gold text-xs font-bold px-3 py-1 rounded-full border border-brand-gold/30">الإدارة العامة المركزية (IPSF-CGA)</span>
-                    <h2 class="text-3xl md:text-4xl font-extrabold">منظومة القيادة والتطوير الدولي</h2>
+        <!-- SECTION 1: الإدارة العامة المركزية (CGA) -->
+        <section id="section-cga" class="tab-content space-y-10">
+            <!-- Hero Banner -->
+            <div class="bg-gradient-to-r from-brand-dark via-brand-primary to-brand-dark text-white rounded-3xl p-8 md:p-10 shadow-2xl border border-brand-gold/30 relative overflow-hidden">
+                <div class="relative z-10 max-w-3xl space-y-4">
+                    <span class="inline-block bg-brand-gold/20 text-brand-gold text-xs font-bold px-3 py-1 rounded-full border border-brand-gold/40">
+                        <i class="fa-solid fa-star"></i> القيادة العليا الموحدة
+                    </span>
+                    <h2 class="text-3xl md:text-5xl font-extrabold leading-tight">الإدارة العامة المركزية (IPSF-CGA)</h2>
                     <p class="text-gray-200 text-sm md:text-base leading-relaxed">
-                        تشرف الإدارة العامة المركزية على توجيه كافة استراتيجيات المنتدى، متابعة أداء الفروع والهيئات، وإصدار المبادرات والقرارات الرسمية الداعمة للسلام والمعرفة.
+                        المركز الرئيسي التوجيهي لمنتدى السلام والسلم الدولي. نتولى رسم السياسات الاستراتيجية، إدارة الفروع الدولية، وتنسيق المبادرات العالمية لتعزيز السلام والتنمية والابتكار.
                     </p>
                 </div>
             </div>
 
-            <!-- الهيكل الإداري -->
-            <div>
-                <h3 class="text-2xl font-bold text-brand-dark mb-6 flex items-center gap-2">
-                    <i class="fa-solid fa-sitemap text-brand-gold"></i> الهيكل الإداري للقيادة
-                </h3>
-                <div id="adminStructureGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                    <!-- سيتم تحميل الهيكل ديناميكياً من قاعدة البيانات -->
-                    <div class="p-6 text-center text-gray-500 bg-white rounded-2xl shadow">جاري تحميل الهيكل الإداري...</div>
+            <!-- Administrative Structure / Leadership Hierarchy -->
+            <div class="space-y-6">
+                <div class="flex flex-wrap justify-between items-center gap-4 border-r-4 border-brand-gold pr-4">
+                    <div>
+                        <h3 class="text-2xl font-extrabold text-brand-dark">الهيكل الإداري والقيادي</h3>
+                        <p class="text-xs text-gray-500">أعضاء مجلس الإدارة ورؤساء القطاعات الرسمية</p>
+                    </div>
+                </div>
+
+                <div id="adminStructureGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <!-- Dynamic Grid Content loaded from Supabase -->
+                    <div class="col-span-full py-12 text-center text-gray-400 bg-white rounded-2xl shadow-sm border border-dashed border-gray-300">
+                        <i class="fa-solid fa-circle-notch fa-spin text-2xl text-brand-gold mb-2"></i>
+                        <p>جاري تحميل الهيكل الإداري والمؤهل القيادي...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contact & Reports Overview -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 pt-6">
+                <!-- Latest Reports -->
+                <div class="bg-white p-6 rounded-2xl shadow-md border border-gray-100 space-y-4">
+                    <h4 class="text-lg font-bold text-brand-dark border-b pb-2 flex items-center gap-2">
+                        <i class="fa-solid fa-file-contract text-brand-gold"></i> التقرير التنفيذي للعام 2026
+                    </h4>
+                    <p class="text-sm text-gray-600 leading-relaxed">
+                        تتضمن تقارير الإدارة العامة المركزية توثيق المبادرات، الفعاليات المنجزة، والشراكات المؤسسية التي جرى عقدها خلال الفترة الماضية.
+                    </p>
+                    <a href="#newspaper" onclick="switchTab('newspaper')" class="inline-flex items-center gap-2 text-xs font-bold text-brand-primary hover:text-brand-gold">
+                        استعراض كافة التقرير والقرارات <i class="fa-solid fa-arrow-left"></i>
+                    </a>
+                </div>
+
+                <!-- Official Contact -->
+                <div class="bg-brand-sand p-6 rounded-2xl shadow-md border border-brand-gold/20 space-y-4">
+                    <h4 class="text-lg font-bold text-brand-dark border-b border-brand-gold/30 pb-2 flex items-center gap-2">
+                        <i class="fa-solid fa-headset text-brand-gold"></i> التواصل الرسمي مع الأمانة العامة
+                    </h4>
+                    <ul class="space-y-2 text-sm text-gray-700">
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-envelope text-brand-primary"></i> البريد الرسمي: aleezalsapaei@gmail.com</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-globe text-brand-primary"></i> المقر الرئيسي: الإدارة العامة المركزية</li>
+                    </ul>
                 </div>
             </div>
         </section>
 
-        <!-- Tab 2: الفروع (Branches) -->
+        <!-- SECTION 2: الفروع (Branches) -->
         <section id="section-branches" class="tab-content hidden space-y-8">
-            <h2 class="text-3xl font-bold text-brand-dark flex items-center gap-2">
-                <i class="fa-solid fa-earth-americas text-brand-gold"></i> شبكة فروع المنتدى حول العالم
-            </h2>
+            <div class="border-r-4 border-brand-gold pr-4">
+                <h2 class="text-3xl font-extrabold text-brand-dark flex items-center gap-3">
+                    <i class="fa-solid fa-earth-americas text-brand-gold"></i> شبكة فروع المنتدى حول العالم
+                </h2>
+                <p class="text-sm text-gray-500">الفروع الإقليمية والدولية التابعة لمنتدى السلام والسلم الدولي</p>
+            </div>
+
             <div id="branchesGrid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <!-- سيتم تحميل الفروع ديناميكياً -->
+                <!-- Dynamic Branches Cards -->
+                <div class="col-span-full py-12 text-center text-gray-400 bg-white rounded-2xl shadow-sm border border-dashed border-gray-300">
+                    <p>جاري تحميل قائمة الفروع المعتمدة...</p>
+                </div>
             </div>
         </section>
 
-        <!-- Tab 3: الهيئات (Bodies) -->
+        <!-- SECTION 3: الهيئات (Bodies) -->
         <section id="section-bodies" class="tab-content hidden space-y-8">
-            <h2 class="text-3xl font-bold text-brand-dark flex items-center gap-2">
-                <i class="fa-solid fa-shield-halved text-brand-gold"></i> الهيئات واللجان المعتمدة
-            </h2>
+            <div class="border-r-4 border-brand-gold pr-4">
+                <h2 class="text-3xl font-extrabold text-brand-dark flex items-center gap-3">
+                    <i class="fa-solid fa-shield-halved text-brand-gold"></i> الهيئات واللجان التخصصية
+                </h2>
+                <p class="text-sm text-gray-500">المجالس والهيئات العليا التابعة للمنتدى</p>
+            </div>
+
             <div id="bodiesGrid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <!-- سيتم تحميل الهيئات ديناميكياً -->
+                <!-- Dynamic Bodies Cards -->
+                <div class="col-span-full py-12 text-center text-gray-400 bg-white rounded-2xl shadow-sm border border-dashed border-gray-300">
+                    <p>جاري تحميل قائمة الهيئات المعتمدة...</p>
+                </div>
             </div>
         </section>
 
-        <!-- Tab 4: الجريدة الرسمية (Newspaper) -->
+        <!-- SECTION 4: الجريدة الرسمية (Newspaper) -->
         <section id="section-newspaper" class="tab-content hidden space-y-8">
-            <h2 class="text-3xl font-bold text-brand-dark flex items-center gap-2">
-                <i class="fa-solid fa-newspaper text-brand-gold"></i> الجريدة الرسمية والقرارات
-            </h2>
-            <div id="newsFeed" class="space-y-6">
-                <!-- سيتم تحميل الأخبار والتقارير ديناميكياً -->
+            <div class="border-r-4 border-brand-gold pr-4">
+                <h2 class="text-3xl font-extrabold text-brand-dark flex items-center gap-3">
+                    <i class="fa-solid fa-newspaper text-brand-gold"></i> الجريدة الرسمية والقرارات
+                </h2>
+                <p class="text-sm text-gray-500">تغطية الأخبار، الإعلانات، القرارات، والبيانات الرسمية الصادرة</p>
+            </div>
+
+            <div id="newsFeed" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Dynamic News Articles -->
+                <div class="col-span-full py-12 text-center text-gray-400 bg-white rounded-2xl shadow-sm border border-dashed border-gray-300">
+                    <p>جاري تحميل منشورات الجريدة الرسمية...</p>
+                </div>
             </div>
         </section>
 
-        <!-- Tab 5: المكتبة المرئية (Media Library) -->
+        <!-- SECTION 5: المكتبة المرئية (Media Library) -->
         <section id="section-library" class="tab-content hidden space-y-8">
-            <h2 class="text-3xl font-bold text-brand-dark flex items-center gap-2">
-                <i class="fa-solid fa-photo-film text-brand-gold"></i> المكتبة المرئية (صور وفيديوهات)
-            </h2>
-            <div id="mediaGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-                <!-- سيتم تحميل وسائط المكتبة ديناميكياً -->
+            <div class="border-r-4 border-brand-gold pr-4">
+                <h2 class="text-3xl font-extrabold text-brand-dark flex items-center gap-3">
+                    <i class="fa-solid fa-photo-film text-brand-gold"></i> المكتبة المرئية الشاملة
+                </h2>
+                <p class="text-sm text-gray-500">معرض الصور والأفلام التوثيقية لفعاليات وأنشطة المنتدى</p>
+            </div>
+
+            <div id="mediaGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Dynamic Media Content -->
+                <div class="col-span-full py-12 text-center text-gray-400 bg-white rounded-2xl shadow-sm border border-dashed border-gray-300">
+                    <p>جاري تحميل ألبوم المكتبة المرئية...</p>
+                </div>
             </div>
         </section>
 
     </main>
 
+    <!-- ADMIN DASHBOARD MODAL (لوحة التحكم الشاملة) -->
+    <div id="loginModal" class="fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4 hidden backdrop-blur-sm">
+        <div class="bg-white rounded-3xl shadow-2xl max-w-xl w-full p-6 md:p-8 space-y-6 relative border-t-8 border-brand-gold max-h-[90vh] overflow-y-auto">
+            <button onclick="toggleModal('loginModal')" class="absolute top-4 left-4 text-gray-400 hover:text-red-500 text-xl font-bold">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <!-- Login Form (Hidden when logged in) -->
+            <div id="loginFormSection" class="space-y-4">
+                <div class="text-center space-y-2">
+                    <div class="w-14 h-14 bg-brand-dark text-brand-gold rounded-full flex items-center justify-center mx-auto text-2xl shadow">
+                        <i class="fa-solid fa-user-shield"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-brand-dark">لوحة إدارة المنتدى</h3>
+                    <p class="text-xs text-gray-500">سجّل دخولك كمشرف لإضافة الهيكل، الفروع، الأخبار والمكتبة</p>
+                </div>
+
+                <form onsubmit="handleAdminLogin(event)" class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 mb-1">البريد الإلكتروني للمشرف</label>
+                        <input type="email" id="loginEmail" required class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-brand-gold focus:outline-none text-sm" placeholder="aleezalsapaei@gmail.com">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 mb-1">كلمة المرور</label>
+                        <input type="password" id="loginPassword" required class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-brand-gold focus:outline-none text-sm" placeholder="••••••••">
+                    </div>
+                    <button type="submit" id="loginSubmitBtn" class="w-full bg-brand-primary hover:bg-brand-dark text-brand-gold py-3 rounded-xl font-bold text-sm shadow transition">
+                        دخول لوحة التحكم
+                    </button>
+                </form>
+            </div>
+
+            <!-- Management Control Panel (Visible after Auth) -->
+            <div id="adminPanelSection" class="hidden space-y-6">
+                <div class="flex justify-between items-center border-b pb-3">
+                    <h3 class="font-bold text-lg text-brand-dark"><i class="fa-solid fa-sliders text-brand-gold"></i> لوحة إدارة المحتوى</h3>
+                    <button onclick="logoutAdmin()" class="bg-red-50 text-red-600 px-3 py-1.5 rounded-lg font-bold text-xs hover:bg-red-100">
+                        تسجيل الخروج
+                    </button>
+                </div>
+
+                <!-- Dynamic Actions Selector -->
+                <div class="space-y-4 text-xs">
+                    <div class="grid grid-cols-2 gap-2">
+                        <button onclick="showAdminForm('structure')" class="bg-brand-sand hover:bg-brand-gold/20 text-brand-dark p-3 rounded-xl font-bold text-right border border-brand-gold/30">
+                            <i class="fa-solid fa-user-plus text-brand-gold"></i> إضافة عضو للهيكل الإداري
+                        </button>
+                        <button onclick="showAdminForm('branch')" class="bg-brand-sand hover:bg-brand-gold/20 text-brand-dark p-3 rounded-xl font-bold text-right border border-brand-gold/30">
+                            <i class="fa-solid fa-location-dot text-brand-gold"></i> إضافة فرع جديد
+                        </button>
+                        <button onclick="showAdminForm('news')" class="bg-brand-sand hover:bg-brand-gold/20 text-brand-dark p-3 rounded-xl font-bold text-right border border-brand-gold/30">
+                            <i class="fa-solid fa-newspaper text-brand-gold"></i> نشر خبر أو قرار
+                        </button>
+                        <button onclick="showAdminForm('media')" class="bg-brand-sand hover:bg-brand-gold/20 text-brand-dark p-3 rounded-xl font-bold text-right border border-brand-gold/30">
+                            <i class="fa-solid fa-photo-film text-brand-gold"></i> رفع مادة للمكتبة
+                        </button>
+                    </div>
+
+                    <!-- Dynamic Input Form Box -->
+                    <div id="adminFormBox" class="bg-gray-50 p-4 rounded-2xl border border-gray-200 hidden">
+                        <!-- Forms rendered via app.js -->
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
     <!-- Footer -->
-    <footer class="bg-brand-dark text-white text-center py-6 border-t border-brand-gold/30 mt-auto">
-        <p class="text-sm">جميع الحقوق محفوظة © 2026 — منتدى السلام والسلم الدولي</p>
+    <footer class="bg-brand-dark text-white text-center py-6 border-t-2 border-brand-gold mt-auto text-xs space-y-2">
+        <p class="font-bold text-brand-gold">منتدى السلام والسلم الدولي — International Peace and Security Forum</p>
+        <p class="text-gray-400">جميع الحقوق محفوظة © 2026 | الأمانة العامة والتحصين الإستراتيجي</p>
     </footer>
 
-    <!-- Script Links -->
+    <!-- Scripts -->
     <script src="config.js"></script>
     <script src="app.js"></script>
 </body>
